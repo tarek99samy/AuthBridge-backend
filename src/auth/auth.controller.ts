@@ -1,15 +1,22 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Get, Req, UseGuards, Res } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/signup.dto';
 import { VerifyUserDto, VerifyQuestionDto } from './dto/reset-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { AuthGuard } from './auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('me')
+  @UseGuards(AuthGuard)
+  getMe(@Req() req) {
+    return req.user;
+  }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -45,5 +52,11 @@ export class AuthController {
   @ApiOperation({ summary: 'Reset user password' })
   async resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto.email, dto.password);
+  }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    return { message: 'Logged out' };
   }
 }
