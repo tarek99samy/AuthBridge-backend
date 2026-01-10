@@ -12,7 +12,7 @@ export class User {
   @Prop({ required: true, unique: true, minlength: 5, maxlength: 100, match: /^\S+@\S+\.\S+$/ })
   email: string;
 
-  @Prop({ required: true, minlength: 8, maxlength: 100, match: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/ })
+  @Prop({ required: true, minlength: 8, maxlength: 100, match: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/ })
   password: string;
 
   @Prop({ required: true, type: Object })
@@ -27,11 +27,22 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
+UserSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    delete (ret as any)?.password;
+    delete (ret as any)?.verification;
+    delete (ret as any)?.createdAt;
+    delete (ret as any)?.updatedAt;
+    delete (ret as any)?.__v;
+    return ret;
+  },
+});
+
 UserSchema.pre('save', async function (this: UserDocument) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 50);
+  if (this.isModified('password') && this.password && !this.password.startsWith('$2a$')) {
+    this.password = await bcrypt.hash(this.password, 10);
   }
-  if (this.isModified('verification') && this.verification && this.verification.answer) {
-    this.verification.answer = await bcrypt.hash(this.verification.answer, 50);
+  if (this.isModified('verification') && this.verification && this.verification.answer && !this.verification.answer.startsWith('$2a$')) {
+    this.verification.answer = await bcrypt.hash(this.verification.answer, 10);
   }
 });

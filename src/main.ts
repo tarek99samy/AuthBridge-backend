@@ -13,7 +13,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  });
 
   const config = new DocumentBuilder().setTitle('AuthBridge API').setDescription('Authentication APIs').setVersion('1.0').addBearerAuth().build();
 
@@ -22,4 +25,4 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 8000);
 }
-bootstrap();
+void bootstrap();

@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Get, Req, UseGuards, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -14,8 +15,8 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(AuthGuard)
-  getMe(@Req() req) {
-    return req.user;
+  async getMe(@Req() req) {
+    return { email: req.email, name: req.name };
   }
 
   @Post('login')
@@ -56,7 +57,7 @@ export class AuthController {
 
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('access_token');
+    res.clearCookie('access_token', { httpOnly: true });
     return { message: 'Logged out' };
   }
 }
