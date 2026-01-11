@@ -42,7 +42,7 @@ Before running the project, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:tarek99samy/AuthBridge-backend.git
 cd AuthBridge-backend
 ```
 
@@ -57,22 +57,14 @@ npm install
 Create a `.env` file in the root directory of the project. You can copy the structure below:
 
 ```bash
-# .env
-
-# Application Port
 PORT=8000
-
 # MongoDB Connection String
 # Example for local: mongodb://localhost:27017/auth-bridge
 # Example for Atlas: mongodb+srv://<user>:<password>@cluster.mongodb.net/auth-bridge
 MONGO_URI=mongodb://localhost:27017/auth-bridge
-
-# JWT Secret Key (Use a strong, random string)
-JWT_SECRET=super_secret_jwt_key_123!
-
-# Frontend URL (For CORS configuration)
-# Matches the origin set in main.ts
-FRONTEND_URL=http://localhost:5173
+JWT_SECRET=super_secret_jwt_key_123! # JWT Secret Key (generate a random  128-byte hex-string for more secure)
+# Frontend URL For CORS configuration
+FRONTEND_URL=http://localhost:5173 # Matches the origin set in main.ts
 ```
 
 ### 4. Running the Application
@@ -124,18 +116,24 @@ This interface allows you to test endpoints directly from your browser.
 ```
 src/
 ├── auth/
-│   ├── dto/                 # Data Transfer Objects (Validation)
-│   ├── auth.controller.ts   # Auth Endpoints (Login, Signup, Reset PW)
-│   ├── auth.guard.ts        # JWT Authentication Guard
-│   ├── auth.service.ts      # Auth Business Logic
+│   ├── dto/...                   # Data Transfer Objects (Validation)
+│   ├── auth.controller.spec.ts   # Auth API Unit Testing
+│   ├── auth.controller.ts        # Auth Endpoints (Login, Signup, Reset Password, ...etc)
+│   ├── auth.guard.ts             # JWT Authentication Guard
+│   ├── auth.service.ts           # Auth Business Logic
+│   ├── csrf.guard.ts             # CSRF Protection Guard
 │   └── ...
 ├── common/
 │   ├── exceptions/          # Custom Exception Classes
-│   └── exception-filter.ts  # Global Error Handler
+│   └── exception-filter.ts  # Global Exception Filter Handler
 ├── users/
-│   ├── user.schema.ts       # MongoDB Schema
-│   ├── users.controller.ts  # User Management Endpoints
-│   └── users.service.ts     # User CRUD Operations
+│   ├── user.schema.ts               # MongoDB Schema
+│   ├── users.controller.ts          # User Management Endpoints
+│   ├── users.service.ts             # User CRUD Operations
+│   ├── users.controller.spec.ts     # Users API Unit Testing
+│   └── ...
+.
+.
 ├── main.ts                  # Application Entry Point
 └── app.module.ts            # Root Module
 ```
