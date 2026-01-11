@@ -16,6 +16,7 @@ export class UsersService {
       this.logger.warn('Failed to fetch users: result is not an array');
       throw new InternalServerErrorException('Cannot fetch users');
     }
+    this.logger.log('Fetched all users successfully');
     return users;
   }
 
@@ -26,6 +27,7 @@ export class UsersService {
       this.logger.warn(`User with id: ${id} not found`);
       throw new UserFetchException();
     }
+    this.logger.log(`Fetching user successfully`);
     return user;
   }
 
@@ -36,6 +38,7 @@ export class UsersService {
       this.logger.warn(`User with email: ${email} not found`);
       throw new UserFetchException();
     }
+    this.logger.log(`Fetching user successfully`);
     return user;
   }
 
@@ -47,6 +50,7 @@ export class UsersService {
       this.logger.warn('Failed to create user');
       throw new CreateUserException();
     }
+    this.logger.log(`User created successfully`);
     return user;
   }
 
@@ -57,6 +61,7 @@ export class UsersService {
       this.logger.warn(`Failed to update user: User with id: ${id} not found`);
       throw new UserFetchException();
     }
+    this.logger.log(`User updated successfully`);
     return updatedUser;
   }
 
@@ -67,6 +72,7 @@ export class UsersService {
       this.logger.warn(`Failed to update user: User with email: ${email} not found`);
       throw new UserFetchException();
     }
+    this.logger.log(`User updated successfully`);
     return updatedUser;
   }
 
@@ -77,6 +83,7 @@ export class UsersService {
       this.logger.warn(`Failed to delete user: User with id: ${id} not found`);
       throw new UserFetchException();
     }
+    this.logger.log(`User deleted successfully`);
     return 'User deleted successfully';
   }
 }

@@ -6,6 +6,12 @@ export class InvalidCredentialsException extends UnauthorizedException {
   }
 }
 
+export class PendingResetPasswordException extends ForbiddenException {
+  constructor() {
+    super('Login blocked for user with pending-reset status. Please complete the reset process.');
+  }
+}
+
 export class EmailAlreadyInUseException extends ForbiddenException {
   constructor() {
     super('Email already in use');

@@ -1,5 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsObject, IsString, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString, MinLength, ValidateNested } from 'class-validator';
+
+class VerificationDto {
+  @IsString()
+  @IsNotEmpty()
+  question: string;
+
+  @IsString()
+  @IsNotEmpty()
+  answer: string;
+}
 
 export class SignupDto {
   @ApiProperty({ example: 'Tarek Samy' })
@@ -8,6 +19,7 @@ export class SignupDto {
   name: string;
 
   @ApiProperty({ example: 'test@test.com' })
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
@@ -17,9 +29,7 @@ export class SignupDto {
   password: string;
 
   @ApiProperty({ example: { question: 'What is your favorite color?', answer: 'blue' } })
-  @IsObject()
-  verification: {
-    question: string;
-    answer: string;
-  };
+  @ValidateNested()
+  @Type(() => VerificationDto)
+  verification: VerificationDto;
 }

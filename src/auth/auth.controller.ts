@@ -22,9 +22,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Get current user profile' })
   @ApiResponse({ status: 200, description: 'User profile retrieved successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getMe(@Req() req: { email: string; name: string }) {
-    this.logger.log(`Fetching current user info for email: ${req.email}`);
-    return { email: req.email, name: req.name };
+  getMe(@Req() req: { email: string }) {
+    return this.authService.getMe(req.email);
   }
 
   @Get('csrf-token')
@@ -45,6 +44,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ status: 200, description: 'User logged in successfully' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @ApiResponse({ status: 403, description: 'Login blocked for pending reset password process to complete' })
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const { access_token, user } = await this.authService.login(dto.email, dto.password);
     res.cookie('access_token', `Bearer ${access_token}`, { httpOnly: true, secure: false, sameSite: 'lax' });
@@ -95,7 +95,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Password reset successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
   async resetPassword(@Body() dto: ResetPasswordDto) {
-    return this.authService.resetPassword(dto.email, dto.password);
+    return this.authService.resetPassword(dto.email, dto.newPassword);
   }
 
   @Post('logout')

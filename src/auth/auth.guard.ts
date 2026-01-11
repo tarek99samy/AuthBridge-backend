@@ -19,9 +19,8 @@ export default class AuthGuard implements CanActivate {
     this.logger.log(`Token found: ${token}, verifying...`);
 
     try {
-      const payload: { email: string; name: string } = await this.jwtService.verifyAsync(token);
+      const payload: { email: string } = await this.jwtService.verifyAsync(token);
       request['email'] = payload['email'];
-      request['name'] = payload['name'];
       this.logger.log(`Token validated for user: ${payload.email}`);
       return true;
     } catch {

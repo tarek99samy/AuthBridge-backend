@@ -1,24 +1,34 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class VerifyUserDto {
-  @ApiProperty({ example: 'test@test.com' })
+  @ApiProperty({ example: 'user@example.com', description: 'The email of the user to verify' })
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 }
 
 export class VerifyQuestionDto {
-  @ApiProperty({ example: 'test@test.com' })
+  @ApiProperty({ example: 'user@example.com' })
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 
-  @ApiProperty({ example: 'blue' })
+  @ApiProperty({ example: 'MyAnswer' })
+  @IsNotEmpty()
+  @IsString()
   answer: string;
 }
 
 export class ResetPasswordDto {
-  @ApiProperty({ example: 'test@test.com' })
+  @ApiProperty({ example: 'user@example.com' })
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 
-  @ApiProperty({ example: 'NewP@ssw0rd' })
+  @ApiProperty({ example: 'newStrongPassword123' })
+  @IsNotEmpty()
+  @IsString()
   @MinLength(8)
-  password: string;
+  newPassword: string;
 }
