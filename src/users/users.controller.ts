@@ -2,8 +2,8 @@ import { Controller, Get, Param, Post, Body, Delete, UseGuards, Put } from '@nes
 import { ApiTags, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { User } from './user.schema';
-import AuthGuard from 'src/auth/auth.guard';
-import CsrfGuard from 'src/auth/csrf.guard';
+import AuthGuard from '../auth/auth.guard';
+import CsrfGuard from '../auth/csrf.guard';
 
 @ApiTags('Users')
 @Controller('users')

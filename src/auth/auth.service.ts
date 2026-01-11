@@ -9,7 +9,7 @@ import {
   InvalidSecurityAnswerException,
   PendingResetPasswordException,
   UserNotFoundException,
-} from 'src/common/exceptions/auth.exceptions';
+} from '../common/exceptions/auth.exceptions';
 
 @Injectable()
 export class AuthService {

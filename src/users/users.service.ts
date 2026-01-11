@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateUserException, UserFetchException } from 'src/common/exceptions/users.exceptions';
+import { CreateUserException, UserFetchException } from '../common/exceptions/users.exceptions';
 
 @Injectable()
 export class UsersService {

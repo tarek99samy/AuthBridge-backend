@@ -1,98 +1,151 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# AuthBridge Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust, secure, and production-ready authentication backend service built with **NestJS** and **MongoDB**. This project demonstrates advanced software engineering practices including comprehensive security layers, structured logging, centralized exception handling, and strict input validation.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Key Features & Highlights
 
-## Description
+### 🔒 Advanced Security
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This application implements a defense-in-depth security strategy:
 
-## Project setup
+- **JWT Authentication**: Stateless authentication using JSON Web Tokens.
+- **Secure Cookie Storage**: Tokens are stored in `HttpOnly`, `Secure` (optional), and `SameSite` cookies to prevent XSS attacks.
+- **CSRF Protection**: Implements the Double Submit Cookie pattern with a custom `CsrfGuard` and token generation endpoints.
+- **Rate Limiting**: Uses `ThrottlerGuard` to protect authentication endpoints (Login/Signup) against brute-force and DDoS attacks.
+- **Password Hashing**: Utilizes `bcryptjs` for secure password hashing before storage.
+- **Input Validation**: Strict DTO validation using `class-validator` with whitelisting to prevent parameter pollution and injection attacks.
 
-```bash
-$ npm install
-```
+### 🛠️ Robust Architecture
 
-## Compile and run the project
+- **Structured Logging**: Integrated logging across all layers (Controllers, Services, Guards) to track request flow, authentication attempts, and critical errors.
+- **Centralized Exception Handling**: Custom exception classes (e.g., `UserNotFoundException`, `InvalidCredentialsException`) combined with a `GlobalHttpExceptionFilter` ensure consistent and meaningful error responses for the client.
+- **Separation of Concerns**: Clean architecture separating business logic (Services), request handling (Controllers), and data access (Mongoose Models).
 
-```bash
-# development
-$ npm run start
+### 📚 Documentation
 
-# watch mode
-$ npm run start:dev
+- **Swagger/OpenAPI**: Fully documented API endpoints with DTO schemas, response types, and example values, available at `/api/docs`.
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+## 🛠️ Prerequisites
+
+Before running the project, ensure you have the following installed:
+
+- **Node.js** (v16 or higher recommended)
+- **npm** or **yarn**
+- **MongoDB**: You can run a local instance or use MongoDB Atlas.
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <repository-url>
+cd AuthBridge-backend
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2. Install Dependencies
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3. Environment Configuration
 
-## Resources
+Create a `.env` file in the root directory of the project. You can copy the structure below:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# .env
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Application Port
+PORT=8000
 
-## Support
+# MongoDB Connection String
+# Example for local: mongodb://localhost:27017/auth-bridge
+# Example for Atlas: mongodb+srv://<user>:<password>@cluster.mongodb.net/auth-bridge
+MONGO_URI=mongodb://localhost:27017/auth-bridge
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# JWT Secret Key (Use a strong, random string)
+JWT_SECRET=super_secret_jwt_key_123!
 
-## Stay in touch
+# Frontend URL (For CORS configuration)
+# Matches the origin set in main.ts
+FRONTEND_URL=http://localhost:5173
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 4. Running the Application
 
-## License
+**Development Mode:**
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+npm run start # without live reload
+npm run start:dev
+```
+
+**Production Mode:**
+
+```bash
+npm run build
+npm run start:prod
+```
+
+The server will start on `http://localhost:8000` (or the port defined in your `.env`).
+
+---
+
+## ✅ Running Tests
+
+This project uses Jest for testing. You can run the included unit tests with the following commands:
+
+```bash
+# Run all unit tests
+npm run test
+
+# Run tests in watch mode (useful during development)
+npm run test:watch
+```
+
+---
+
+## 📖 API Documentation
+
+Once the server is running, you can access the interactive Swagger API documentation at:
+
+👉 **http://localhost:8000/api/docs**
+
+This interface allows you to test endpoints directly from your browser.
+
+---
+
+## 🧪 Project Structure
+
+```
+src/
+├── auth/
+│   ├── dto/                 # Data Transfer Objects (Validation)
+│   ├── auth.controller.ts   # Auth Endpoints (Login, Signup, Reset PW)
+│   ├── auth.guard.ts        # JWT Authentication Guard
+│   ├── auth.service.ts      # Auth Business Logic
+│   └── ...
+├── common/
+│   ├── exceptions/          # Custom Exception Classes
+│   └── exception-filter.ts  # Global Error Handler
+├── users/
+│   ├── user.schema.ts       # MongoDB Schema
+│   ├── users.controller.ts  # User Management Endpoints
+│   └── users.service.ts     # User CRUD Operations
+├── main.ts                  # Application Entry Point
+└── app.module.ts            # Root Module
+```
+
+---
+
+## 🛡️ Security Workflow Example
+
+1. **Signup/Login**: User sends credentials.
+2. **Validation**: `ValidationPipe` checks input format.
+3. **Processing**: Service hashes password/verifies hash.
+4. **Token Issue**: Server sets `access_token` (HttpOnly) and `csrf_token` (Cookie).
+5. **Protected Requests**: Client must send the cookie _and_ the CSRF token in headers for subsequent requests.
